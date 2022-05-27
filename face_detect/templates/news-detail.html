@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+     <title>Disease Diagnosis System</title>
+<!--
+
+Template 2098 Health
+
+http://www.tooplate.com/view/2098-health
+
+-->
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="author" content="Tooplate">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+
+     <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+     <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="{% static 'css/tooplate-style.css' %}">
+     {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> {% endcomment %}
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+     <!-- PRE LOADER -->
+     <section class="preloader">
+          <div class="spinner">
+
+               <span class="spinner-rotate"></span>
+               
+          </div>
+     </section>
+
+
+     <!-- HEADER -->
+     {% comment %} <header>
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-4 col-sm-3">
+                         <p>Welcome to a Face Detection Miny Project</p>
+                    </div>
+                         
+                    <div class="col-md-8 col-sm-9 text-align-right">
+                         <span class="phone-icon"><i class="fa fa-phone"></i> 010-060-0160</span>
+                         <span class="date-icon"><i class="fa fa-calendar-plus-o"></i> Bhopal 462022</span>
+                         <span class="email-icon"><i class="fa fa-envelope-o"></i> <a href="#">Youremail@gmail.com</a></span>
+                    </div>
+
+               </div>
+          </div>
+     </header> {% endcomment %}
+
+
+     <!-- MENU -->
+     <section class="navbar navbar-default navbar-static-top" role="navigation" style="position: -webkit-sticky; position: sticky; top: 0;" >
+          
+          <div class="container">
+
+               <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                    </button>
+
+                    <p><img src="{% static 'images/logo.png' %}" class="logo" alt="logo" style="width:50px;height:50px">Disease Diagnosis System </p>
+               </div>
+               
+               <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                         <li><a href="{% url 'home' %}" class="smoothScroll">Home</a></li>
+                         <li><a href="{% url 'about' %}" class="smoothScroll">About Me</a></li>
+                         <li><a href="{% url 'contact' %}" class="smoothScroll">Contact</a></li>
+                         {% if not request.user.username %}
+                         <li class="appointment-btn"><a href="{% url 'login' %}">Login</a></li>
+                         <li class="appointment-btn"><a href="{% url 'signup' %}">Signup</a></li>
+                         {% else %}
+                         <li><a href="{% url 'checkdisease' %}"><b>Check Disease</b></a></li>
+                         <li class="appointment-btn"><a href="{% url 'logout' %}">Logout</a></li>
+                         <strong style="margin-left:118px;color:DarkBlue">Welcome! {{request.user.username}}</strong>
+                         {% endif %}
+                    </ul>
+               </div>
+
+          </div>
+     </section>
+
+
+     
+     
+     {% if Message%}
+     {% comment %} <div style="position: absolute; 
+     /*position: relative;
+     //position: fixed;*/
+     left: 0px;
+     top: 100px;
+     z-index: -1" class="alert alert-{{Message.type}} alert-dismissible fade show" role="alert">
+          <strong>{{Message.heading}}</strong> {{Message.message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+     </div> {% endcomment %}
+     <div class="alert alert-{{Message.type}} alert-dismissible" role="alert">
+          <strong>{{Message.heading}}</strong> {{Message.message}}
+          {% comment %} <button type="button" class="close" data-dismiss="alert" aria-label="Close"> {% endcomment %}
+        </div>
+     {%endif%}
+
+     <!-- NEWS DETAIL -->
+     {% block body %}
+     {% endblock %}
+
+
+     <!-- SCRIPTS -->
+     <script src="{% static 'js/jquery.js' %}"></script>
+     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+     <script src="{% static 'js/jquery.sticky.js' %}"></script>
+     <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+     <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+     <script src="{% static 'js/magnific-popup-options.js' %}"></script>
+     <script src="{% static 'js/wow.min.js' %}"></script>
+     <script src="{% static 'js/smoothscroll.js' %}"></script>
+     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+     <script src="{% static 'js/custom.js' %}"></script>
+     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
+</body>
+</html>

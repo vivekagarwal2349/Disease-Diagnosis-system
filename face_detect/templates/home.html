@@ -1,0 +1,102 @@
+{% extends 'news-detail.html' %}
+{% load static %}
+{% block body %}
+<script>
+
+</script>
+<style>
+     {% comment %} body {
+          margin: 0;
+          height: 100vh;
+          overflow: hidden;
+          background: black;
+        } {% endcomment %}
+     .cover-img {
+          background-image: url({% static 'images/images.jpg' %});
+          background-color: #cccccc;
+          height: 450px;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          position: relative;} 
+     </style>
+{% comment %} <img src="{% static 'images/images.jpeg' %}" class="img-responsive" alt="" style="align:centre, "> {% endcomment %}
+<div class="cover-img">
+     
+</div>
+<section id="news-detail" data-stellar-background-ratio="0.5" style="background-color :#e4eeed">
+     {% comment %} <img src="{% static 'images/images.jpeg' %}" class="img-responsive" alt="" style="align:centre, "> {% endcomment %}
+
+          <div class="container">
+
+               <div class="row">
+
+                    <div class="col-md-8 col-sm-7" >
+                         <!-- NEWS THUMB -->
+                         {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" > {% endcomment %}
+                         <div class="news-detail-thumb">
+                              {% comment %} <div class="news-image">
+                                   <img src="{% static 'images/face1.png' %}" class="img-responsive" alt="">
+                              </div> {% endcomment %}
+                              <h4>Be Your Own Doctor !</h4>
+                              <p>It could have happened so often that you or somebody yours need specialist's assistance right away, yet they are not accessible because of some reasons.The Sickness Expectation framework is an end client support and online interview project. Here, we propose a web application that permit clients to help moment direction on their sickness through an insightful framework. The application is taken care of with different subtleties and the infection related with those details.The application permits client to share their sickness related issues.It then, at that point, processes client explicit subtleties to check for different ailment that could be related with it.Here we utilize a few canny information mining procedures to figure the most dependable disease that could be related with patient's subtleties. In light of result, patient can contact specialist as needs be for additional treatment. </p>
+                              <img src="{% static 'images/homie.gif' %}" class="img-responsive" alt="">
+                              {% comment %} <div class="news-social-share">
+                                   <h4>Share My Work</h4>
+                                        <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i>Facebook</a>
+                                        <a href="#" class="btn btn-success"><i class="fa fa-twitter"></i>Twitter</a>
+                                        <a href="#" class="btn btn-danger"><i class="fa fa-google-plus"></i>Google+</a>
+                              </div> {% endcomment %}
+                         </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-5">
+                         <div class="news-sidebar">
+                              <div class="news-author">
+                                   <h4>About  My  Project</h4>
+                                   <p> Disease Prediction based on symptoms provided by patient with face Authentication Login System.</p></div>
+
+                              <div class="recent-post">
+                                   <h4>Using Library of Python</h4>
+
+                                        <div class="media">
+                                             <div class="media-object pull-left">
+                                                  <a href="https://numpy.org/"><img src="{% static 'images/face2.png' %}" class="img-responsive" alt=""></a>
+                                             </div>
+                                             <div class="media-body">
+                                                  <h4 class="media-heading"><a href="https://numpy.org/">Numpy process Numerical Value Like Array</a></h4>
+                                             </div>
+                                        </div>
+
+                                        <div class="media">
+                                             <div class="media-object pull-left">
+                                                  <a href="https://opencv.org/"><img src="{% static 'images/face3.png' %}" class="img-responsive" alt=""></a>
+                                             </div>
+                                             <div class="media-body">
+                                                  <h4 class="media-heading"><a href="https://opencv.org/">Using Opencv for CV2</a></h4>
+                                             </div>
+                                        </div>
+                              </div>
+
+
+                              <div class="news-ads sidebar-ads">
+                                   <h4>Sidebar Banner Ad</h4>
+                              </div>
+
+                              <div class="news-tags">
+                                   <h4>Tags</h4>
+                                        <li><a href="#">Training</a></li>
+                                        <li><a href="#">Login</a></li>
+                                        <li><a href="#">Signup</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="#">About us</a></li>
+                              </div>
+                         </div>
+                    </div>
+
+               </div>
+          </div>
+     </section>
+
+{% endblock %}

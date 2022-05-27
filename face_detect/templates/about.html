@@ -1,0 +1,29 @@
+{% extends 'news-detail.html' %}
+{% load static %}
+{% block body %}
+<section id="about">
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-6 col-sm-6">
+                         <div class="about-info">
+                              <h2 class="wow fadeInUp" data-wow-delay="0.6s" style="color:green">Welcome to Disease Diagnosis System</h2>
+                              <div class="wow fadeInUp" data-wow-delay="0.8s">
+                                   <p>In this project, it bid a Machine learning Decision tree map, Navie Bayes, Random forest algorithm by using structured and unstructured data from hospital. It also uses Machine learning algorithm for partitioning the data. To the highest of gen, none of the current work attentive on together data types in the zone of remedial big data analytics. Compared to several typical calculating algorithms, the scheming accuracy of the proposed algorithm reaches 94.8% with an regular speed which is quicker than that of the unimodal disease risk prediction algorithm and produces report.</p>
+                                   <p>Object detection and tracking is an active research topic in the field of computer vision that makes efforts to detect, recognize, and track objects through a series of frames. It has been found that object detection and tracking in the video sequence is a challenging task and a very time-consuming process. Object detection is the first step in building a larger computer vision system.</p>
+                                   {% comment %} <p>A facial recognition system is a technology capable of identifying or verifying a person from a ... Pioneers of automated face recognition include Woody Bledsoe, Helen Chan Wolf, and Charles Bisson. ... individuals with very pale skin are the same,” said Blake Senftner, a senior software engineer at CyberExtruder.</p> {% endcomment %}
+                              </div>
+                              <figure class="profile wow fadeInUp" data-wow-delay="1s">
+                                   <img src="{% static 'images/face6.jpg' %}" class="img-responsive" alt="">
+                                   <figcaption>
+                                        <h3>Vivek Agarwal</h3>
+                                        <p>IIT (BHU) Varanasi</p>
+                                   </figcaption>
+                              </figure>
+                         </div>
+                    </div>
+
+               </div>
+          </div>
+     </section>
+{% endblock %}
