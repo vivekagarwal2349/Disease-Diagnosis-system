@@ -19,6 +19,7 @@ install the dependencies:
 run the web application:
 
 `$ python manage.py migrate`
+
 `$ python manage.py runserver`
 
 Navigate to the URL: <http://localhost:8000/>
