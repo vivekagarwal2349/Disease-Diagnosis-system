@@ -9,17 +9,17 @@ from os import listdir
 from os.path import join, isfile
 from django.forms.models import model_to_dict
 
-#loading trained_model
 import joblib as jb
 model = jb.load('trained_model')
 
-# Create your views here.
 def Login(request):
     error=""
     if request.method=="POST":
         u = request.POST['uname']
         p = request.POST['pwd']
         user = authenticate(username=u,password=p)
+
+        # CHECK IF USERNAME AND PASSWORD IS CORRECT
 
         try:
             user.is_staff
@@ -28,12 +28,13 @@ def Login(request):
             return render(request,'login1.html',{'Message': Message})
 
         if user.is_staff:
-            data_path = '/home/krumpr/Face_Recognition/face_detect/images/'
-            # onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path, f))]
+
+            # TRAINING MODEL
+
+            data_path = './face_detect/images/'
 
             Training_Data, Labels = [], []
 
-            # for i, files in enumerate(onlyfiles):
             for i in range(1,101):
                 image_path = data_path + str(u) + str(i) + ".jpg"
                 images = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -49,7 +50,7 @@ def Login(request):
             print("Model training Complete !!!!!")
 
             face_classifier = cv2.CascadeClassifier(
-                '/home/krumpr/Face_Recognition/face_detect/haarcascade_frontalface_default.xml')
+                './face_detect/haarcascade_frontalface_default.xml')
 
             def face_detector(img, size=0.5):
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -65,7 +66,8 @@ def Login(request):
 
                 return img, roi
 
-#################################################################
+            # DETECTING CAMERA
+
             all_camera_idx_available = -1
 
             for camera_idx in range(10):
@@ -84,13 +86,14 @@ def Login(request):
             cap = cv2.VideoCapture(all_camera_idx_available)
             count = 0
 
+            # PREDICTING THE FRAME
+
             while True:
                 ret, frame = cap.read()
                 image, face = face_detector(frame)
-                # print(face)
+
                 if len(face) != 0:
                     count += 1
-                    # face = cv2.resize(face_detector(frame), (400, 400))
                     face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
                     result = model.predict(face)
                     cv2.putText(frame, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
@@ -101,50 +104,29 @@ def Login(request):
 
                     if confidence > 85:
                         login(request,user)
-                        # cv2.putText(image, "Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-                        # cv2.imshow('Face Cropper', image)
-                        # time.sleep(1)
                         error="yes"
                         break
 
                     elif count<=5 :
-                        # cv2.putText(image, "Can't Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-                        # cv2.imshow('Face Cropper', image)
-                        # time.sleep(5)
-                        # error="no"
-                        # break
                         pass
 
                     else:
-                        # cv2.putText(image, "Can't Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-                        # cv2.imshow('Face Cropper', image)
-                        # time.sleep(5)
                         error="no"
                         break
-                        # pass
-
 
                 else:
                     print("Face Not Found")
                     cap_not = frame
                     cv2.putText(cap_not, str(count)+" Face Not Found", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
                     cv2.imshow('Face Cropper', cap_not)
-                    # window.alert("Face Not Found")
-                    # pass
 
                     if cv2.waitKey(1) == 5 or count == 2:
                         error ="not_found"
-                        # success_flag = True
                         break
 
             cap.release()
             cv2.destroyAllWindows()
-            # error = True
 
-        # if success_flag:
-        #     success_flag = False
-        #     return redirect('/login')
-        
             if error=="yes":
                 Message = {'type': 'success', 'message': 'Logged IN', 'heading': 'Success!'}
                 error=""
@@ -159,185 +141,9 @@ def Login(request):
                 return render(request,'login1.html',{'Message': Message})
 
     return render(request,'login1.html')
-    # return render(request,'checkdisease.html')
-
-#################################
-            # cap = cv2.VideoCapture(0)
-            # while True:
-
-            #     ret, frame = cap.read()
-            #     # cv2.putText(frame, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            #     cv2.imshow('Face Cropper', frame)
-            #     # time.sleep(100)
-            #     image, face = face_detector(frame)
-
-            #     try:
-            #         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-            #         result = model.predict(face)
-
-            #         if result[1] < 500:
-            #             confidence = int(100 * (1 - (result[1]) / 300))
-
-            #         if confidence > 85:
-            #             login(request,user)
-            #             cv2.putText(image, "Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            #             cv2.imshow('Face Cropper', image)
-            #             time.sleep(5)
-            #             error="yes"
-            #             break
-
-
-            #         else:
-            #             cv2.putText(image, "Can't Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            #             cv2.imshow('Face Cropper', image)
-            #             time.sleep(5)
-            #             error="no"
-            #             break
-
-
-            #     except:
-            #         cv2.putText(image, "Face Not Found", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            #         cv2.imshow('Face Cropper', image)
-            #         time.sleep(5)
-            #         error="noface"
-            #         break
-
-            # cap.release()
-
-            # cv2.destroyAllWindows()
-
-        
-    # d={'error':error}
-    # return render(request,'login1.html',d)
-
-def home(request):
-    return render(request,'home.html')
-
-def about(request):
-    return render(request,'about.html')
-
-def contact(request):
-    return render(request,'contact.html')
-
-
-def signup(request):
-    error = False
-    success_flag = False
-    incomplete_details = ""
-    if request.method=="POST":
-        u = request.POST['uname']
-        p = request.POST['pwd']
-        f = request.POST['fname']
-        l = request.POST['lname']
-        e = request.POST['email']
-        a = request.POST['add']
-        m = request.POST['mobile']
-        try:
-            i = request.FILES['image']
-        except:
-            i = ""
-        
-        if u=="" or p=="" or f=="" or l=="" or e=="" or a=="" or m=="" or i=="":
-            Message = {'type': 'danger', 'message': 'Please fill all the details', 'heading': 'Error'}
-            return render(request,'signup.html',{'Message': Message})
-        # try:
-        #     user = User.objects.create_superuser(username=u)
-        # except:
-        #     Message = {'type': 'danger', 'message': 'Username already exists', 'heading': 'Error'}
-        #     return render(request,'signup.html',{'Message': Message})
-
-        # try:
-        #     user = User.objects.create_superuser(email=e)
-        # except:
-        #     Message = {'type': 'danger', 'message': 'Email already exists', 'heading': 'Error'}
-        #     return render(request,'signup.html',{'Message': Message})
-        
-        try:
-            user = User.objects.create_superuser(username=u,password=p,email=e,first_name=f,last_name=l)
-                
-            Profile.objects.create(user=user,mobile=m,add=a,image=i)
-            face_classifier = cv2.CascadeClassifier(
-                '/home/krumpr/Face_Recognition/face_detect/haarcascade_frontalface_default.xml')
-
-            def face_extractor(img):
-
-                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                faces = face_classifier.detectMultiScale(gray, 1.3, 5)
-
-                if faces is ():
-                    return None
-
-                for (x, y, w, h) in faces:
-                    cropped_faces = img[y:y + h, x:x + w]
-
-                return cropped_faces
-            
-            all_camera_idx_available = -1
-
-            for camera_idx in range(10):
-                cap = cv2.VideoCapture(camera_idx)
-                if cap.isOpened():
-                    print(f'Camera index available: {camera_idx}')
-                    all_camera_idx_available=camera_idx
-                    cap.release()
-                    break
-
-            if all_camera_idx_available == -1:
-                Message = {'type': 'danger', 'message': 'Camera Not Found', 'heading': 'Error'}
-                return render(request,'signup.html',{'Message': Message})
-
-            cap = cv2.VideoCapture(all_camera_idx_available)
-            count = 0
-
-            while True:
-                ret, frame = cap.read()
-                if frame is None:
-                    Message = {'type': 'danger', 'message': 'Camera Not Found', 'heading': 'Error'}
-                    return render(request,'signup.html',{'Message': Message})
-
-                if face_extractor(frame) is not None:
-                    count += 1
-                    face = cv2.resize(face_extractor(frame), (400, 400))
-                    face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-
-                    file_name_path = '/home/krumpr/Face_Recognition/face_detect/images/'+ str(u) + str(count) + '.jpg'
-                    cv2.imwrite(file_name_path, face)
-
-                    cv2.putText(frame, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-                    cv2.imshow('Face Cropper', frame)
-
-                else:
-                    # print("Face Not Found")
-                    cap_not = frame
-                    cv2.putText(cap_not, str(count)+" Face Not in Frame", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-                    cv2.imshow('Face Cropper', cap_not)
-                    # window.alert("Face Not Found")
-                    pass
-                if cv2.waitKey(1) == 13 or count == 100:
-                    # error = False
-                    success_flag = True
-                    break
-            cap.release()
-            cv2.destroyAllWindows()
-            error = True
-        except:
-            Message = {'type': 'danger', 'message': 'Username already exists', 'heading': 'Error'}
-            return render(request,'signup.html',{'Message': Message})
-
-
-    if success_flag:
-        success_flag = False
-        return redirect('/login')
-
-    d = {'error':error,
-         'incomplete_details':incomplete_details}
-    return render(request,'signup.html',d)
-
-def Logout(request):
-    logout(request)
-    return redirect('home')
 
 def checkdisease(request):
+
     diseaselist=['Fungal infection','Allergy','GERD','Chronic cholestasis','Drug Reaction','Peptic ulcer diseae','AIDS','Diabetes ',
   'Gastroenteritis','Bronchial Asthma','Hypertension ','Migraine','Cervical spondylosis','Paralysis (brain hemorrhage)',
   'Jaundice','Malaria','Chicken pox','Dengue','Typhoid','hepatitis A', 'Hepatitis B', 'Hepatitis C', 'Hepatitis D',
@@ -381,29 +187,25 @@ def checkdisease(request):
     elif request.method == 'POST':
       print("POST")
 
-      ## access you data by playing around with the request.POST object
-      
       inputno = int(request.POST["noofsym"])
-      print(inputno)
       if (inputno == 0 ) :
           Message = {'type': 'info', 'message': ' Please add some symptoms', 'heading': 'Info'}
           return render(request,'checkdisease.html',{'Message': Message})
-        #   return JsonResponse({'predicteddisease': "none",'confidencescore': 0 })
-  
-      else :
 
+      else :
         psymptoms = []
         psymptoms = request.POST.getlist("symptoms[]")  
        
         print(psymptoms)
 
+    # CREATING INPUT ARRAY FOR THE MODEL 
+
     testingsymptoms = []
-    #append zero in all coloumn fields...
+
     for x in range(0, len(symptomslist)):
         testingsymptoms.append(0)
 
 
-    #update 1 where symptoms gets matched...
     for k in range(0, len(symptomslist)):
 
         for z in psymptoms:
@@ -481,3 +283,128 @@ def checkdisease(request):
         consultdoctor = "Physician"
 
     return JsonResponse({'predicteddisease': predicted_disease, "confidencescore" : confidencescore, "consultdoctor" : consultdoctor})
+
+def home(request):
+    return render(request,'home.html')
+
+def about(request):
+    return render(request,'about.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
+
+def signup(request):
+    error = False
+    success_flag = False
+    incomplete_details = ""
+
+    # GETTING USER DETAILS FROM THE FORM
+
+    if request.method=="POST":
+        u = request.POST['uname']
+        p = request.POST['pwd']
+        f = request.POST['fname']
+        l = request.POST['lname']
+        e = request.POST['email']
+        a = request.POST['add']
+        m = request.POST['mobile']
+        try:
+            i = request.FILES['image']
+        except:
+            i = ""
+        
+        if u=="" or p=="" or f=="" or l=="" or e=="" or a=="" or m=="" or i=="":
+            Message = {'type': 'danger', 'message': 'Please fill all the details', 'heading': 'Error'}
+            return render(request,'signup.html',{'Message': Message})
+
+        try:
+            user = User.objects.create_superuser(username=u,password=p,email=e,first_name=f,last_name=l)
+                
+            Profile.objects.create(user=user,mobile=m,add=a,image=i)
+            face_classifier = cv2.CascadeClassifier(
+                './face_detect/haarcascade_frontalface_default.xml')
+
+            def face_extractor(img):
+
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+
+                if faces is ():
+                    return None
+
+                for (x, y, w, h) in faces:
+                    cropped_faces = img[y:y + h, x:x + w]
+
+                return cropped_faces
+
+            # DETECTING CAMERA
+            
+            all_camera_idx_available = -1
+
+            for camera_idx in range(10):
+                cap = cv2.VideoCapture(camera_idx)
+                if cap.isOpened():
+                    print(f'Camera index available: {camera_idx}')
+                    all_camera_idx_available=camera_idx
+                    cap.release()
+                    break
+
+            if all_camera_idx_available == -1:
+                Message = {'type': 'danger', 'message': 'Camera Not Found', 'heading': 'Error'}
+                return render(request,'signup.html',{'Message': Message})
+
+            # DETECTING FACE AND CAPTURE 100 SUCH IMAGES
+
+            cap = cv2.VideoCapture(all_camera_idx_available)
+            count = 0
+
+            while True:
+                ret, frame = cap.read()
+                if frame is None:
+                    Message = {'type': 'danger', 'message': 'Camera Not Found', 'heading': 'Error'}
+                    return render(request,'signup.html',{'Message': Message})
+
+                if face_extractor(frame) is not None:
+                    count += 1
+                    face = cv2.resize(face_extractor(frame), (400, 400))
+                    face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+
+                    file_name_path = './face_detect/images/'+ str(u) + str(count) + '.jpg'
+                    cv2.imwrite(file_name_path, face)
+
+                    cv2.putText(frame, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+                    cv2.imshow('Face Cropper', frame)
+
+                else:
+                    cap_not = frame
+                    cv2.putText(cap_not, str(count)+" Face Not in Frame", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+                    cv2.imshow('Face Cropper', cap_not)
+                    pass
+
+                if cv2.waitKey(1) == 13 or count == 100:
+                    success_flag = True
+                    break
+
+            cap.release()
+            cv2.destroyAllWindows()
+            error = True
+
+        except:
+            Message = {'type': 'danger', 'message': 'Username already exists', 'heading': 'Error'}
+            return render(request,'signup.html',{'Message': Message})
+
+
+    if success_flag:
+        success_flag = False
+        return redirect('/login')
+
+    d = {'error':error,
+         'incomplete_details':incomplete_details}
+
+    return render(request,'signup.html',d)
+
+def Logout(request):
+    logout(request)
+    return redirect('home')
+
