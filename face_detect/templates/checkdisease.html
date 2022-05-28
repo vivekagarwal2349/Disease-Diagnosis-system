@@ -1,505 +1,415 @@
-{% extends 'news-detail.html' %}
-{% load static %}
+{% extends 'news-detail.html' %} 
+{% load static %} 
 {% block body %}
 
 <script>
-    let symptomsList = [];
-    
+let symptomsList = [];
 
-    function predictFunc(){
-        console.log("yaay");
-        var symptoms = document.getElementsByClassName("symptoms");
-        var noofsym = symptoms.length;
-        var symlist=[];
+function predictFunc() {
+	console.log("yaay");
+	var symptoms = document.getElementsByClassName("symptoms");
+	var noofsym = symptoms.length;
+	var symlist = [];
+	if(noofsym == 0) {
+		alert(" please add some symptoms ");
+	} else {
+		for(i = 0; i < symptoms.length; i++) {
+			symlist[i] = symptoms[i].value;
+		}
+		$("#resultdiv").show("slow");
+		$('html,body').animate({
+			scrollTop: $("#resultdiv").offset().top
+		}, 'slow');
+		$.post('/checkdisease', {
+			"noofsym": noofsym,
+			"symptoms": symlist,
+			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+		}, function(data, status, jqXHR) {
+			console.log("reques response recieved")
+			console.log(data)
+			document.getElementById('diseasefield').innerText = data["predicteddisease"];
+			document.getElementById('percentage').innerText = data["confidencescore"] + "%";
+			percent = data["confidencescore"];
+			disease = data["predicteddisease"];
+			console.log("percentage is " + percent);
+			$('#percentage').css('width', percent + "%");
+			document.getElementById('diseasesearch').innerText = data["predicteddisease"];
+			$("#href").attr("href", "https://www.google.com/search?q=" + disease + "");
+			document.getElementById('consultdoctor').innerText = data["consultdoctor"]; { % comment %
+			}
+			$("#doctorid").attr("href", "https://www.google.com/search?q=" + consultdoctor + "%20nearby%20me "); { % endcomment %
+			}
+			doc_link = "https://www.google.com/search?q=" + (data["consultdoctor"]) + "%20near%20me "
+			document.getElementById("doctorid").href = doc_link;
+		});
+	}
+}
 
-        if(noofsym == 0){
-            alert(" please add some symptoms ");
-        }
+function Functionshow() {
+	document.getElementById("searchbar").value = '';
+	document.getElementById("myDropdown").classList.toggle("show");
+	search_symptoms();
+}
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+	if(!event.target.matches('.btn')) {
+		if(!event.target.matches('.searchbardiv')) {
+			if(!event.target.matches('.searchbar')) {
+				var dropdowns = document.getElementsByClassName("drop-content");
+				var i;
+				for(i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if(openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+						console.log("removed");
+					}
+				}
+			}
+		}
+	}
+}
 
-        else {
-               
-            for(i=0;i<symptoms.length;i++){
-                symlist[i]=symptoms[i].value;
-            }
-            $("#resultdiv").show("slow");
-            $('html,body').animate({
-                scrollTop: $("#resultdiv").offset().top},
-                'slow');
-            $.post('/checkdisease',{ "noofsym" : noofsym,
-                            "symptoms" :symlist,
-                            csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
-                    },
-                    function (data, status, jqXHR) {
-                      console.log("reques response recieved")
-                      console.log(data)
-                      document.getElementById('diseasefield').innerText = data["predicteddisease"];
-                      document.getElementById('percentage').innerText = data["confidencescore"]+"%";
-                      percent=data["confidencescore"];
-                      disease=data["predicteddisease"];
-                      console.log("percentage is "+percent);
-              
-                      $('#percentage').css('width', percent + "%");
-              
-                      document.getElementById('diseasesearch').innerText = data["predicteddisease"];
-              
-                      $("#href").attr("href","https://www.google.com/search?q="+ disease +"");
-              
-                      
-                      document.getElementById('consultdoctor').innerText = data["consultdoctor"];
-                      {% comment %} $("#doctorid").attr("href","https://www.google.com/search?q="+ consultdoctor +"%20nearby%20me "); {% endcomment %}
-                      doc_link = "https://www.google.com/search?q="+ (data["consultdoctor"]) +"%20near%20me "
-                      document.getElementById("doctorid").href = doc_link;
-              
-                    });
+function Functionsymptoms(name) {
+	var newItem = document.createElement("TEXTAREA");
+	newItem.innerText = name;
+	newItem.setAttribute("id", "symptoms");
+	console.log(newItem.innerText);
+	newItem.setAttribute("class", "symptoms");
+	document.getElementById("sympbox").appendChild(newItem);
+}
 
+function search_symptoms() {
+	let input = document.getElementById('searchbar').value
+	input = input.toLowerCase();
+	let x = document.getElementsByClassName('dropdown-item');
+	for(i = 0; i < x.length; i++) {
+		if(!x[i].innerHTML.toLowerCase().includes(input)) {
+			x[i].style.display = "none";
+		} else {
+			x[i].style.display = "inline-block";
+		}
+	}
+}
+$(document).ready(function() {
+	console.log("ready");
+	$("#predict").click(function() {
+		event.preventDefault();
+		var symptoms = document.getElementsByClassName("symptoms");
+		var noofsym = symptoms.length;
+		var symlist = [];
+		if(noofsym == 0) {
+			alert(" please add some symptoms ");
+		} else {
+			for(i = 0; i < symptoms.length; i++) {
+				symlist[i] = symptoms[i].value;
+			}
+			console.log(symlist);
+			$("#resultdiv").show("slow");
+			$('html,body').animate({
+				scrollTop: $("#resultdiv").offset().top
+			}, 'slow');
+			$.ajax({
+				url: 'checkdisease',
+				type: "POST",
+				data: {
+					"noofsym": noofsym,
+					"symptoms": symlist,
+					csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+				},
+				dataType: 'json',
+				success: function(data) {
+					document.getElementById('diseasefield').innerText = data["predicteddisease"];
+					document.getElementById('percentage').innerText = data["confidencescore"] + "%";
+					document.getElementById('consultdoctor').innerText = data["consultdoctor"];
+					percent = data["confidencescore"];
+					disease = data["predicteddisease"];
+					consultdoctor = data["consultdoctor"];
+					$('#percentage').css('width', percent + "%");
+					document.getElementById('diseasesearch').innerText = data["predicteddisease"];
+					$("#href").attr("href", "https://www.google.com/search?q=" + disease + "");
+					document.getElementById('consultdoctor').innerText = data["consultdoctor"];
+					$("#doctorid").attr("href", "https://www.google.com/search?q=" + consultdoctor + "%20nearby%20me ");
+					document.getElementById("doctorid").href = "http://www.cnn.com/";
+				}
+			});
+		}
+	});
+});
 
-            
-              
-        }
-    }
-
-  function Functionshow() {
-    
-    document.getElementById("searchbar").value = '';
-    document.getElementById("myDropdown").classList.toggle("show");
-     search_symptoms();
-    
-  }
-  
-  
-  // Close the dropdown menu if the user clicks outside of it
-  window.onclick = function(event) {
-    if (!event.target.matches('.btn')) {
-      if (!event.target.matches('.searchbardiv')){
-        if (!event.target.matches('.searchbar')){
-  
-      var dropdowns = document.getElementsByClassName("drop-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-          console.log("removed");
-        }
-      }
-    }
-  }
-  }
-  }
-  
-    function Functionsymptoms(name) {
-      var newItem = document.createElement("TEXTAREA");
-      newItem.innerText = name;
-      newItem.setAttribute("id","symptoms");
-      console.log(newItem.innerText);
-      newItem.setAttribute("class","symptoms");
-      document.getElementById("sympbox").appendChild(newItem);
-      
-    }
-  
-   
-    //var elements = document.getElementsByClassName("symptoms");
-  
-  
-    function search_symptoms() { 
-      let input = document.getElementById('searchbar').value 
-      input=input.toLowerCase(); 
-      let x = document.getElementsByClassName('dropdown-item'); 
-        
-      for (i = 0; i < x.length; i++) {  
-          if (!x[i].innerHTML.toLowerCase().includes(input)) { 
-              x[i].style.display="none"; 
-          } 
-          else { 
-              x[i].style.display="inline-block";                  
-          } 
-      } 
-  } 
-  
-  
-  $(document).ready( function(){
-  
-  console.log("ready");
-  $("#predict").click(function () {
-    event.preventDefault();
-  
-    var symptoms = document.getElementsByClassName("symptoms");
-    var noofsym = symptoms.length;
-    var symlist=[];
-  
-    if(noofsym == 0){
-       alert(" please add some symptoms ");
-    }
-  
-    else {
-  
-    for(i=0;i<symptoms.length;i++){
-      symlist[i]=symptoms[i].value;
-    }
-    console.log(symlist);
-  
-  
-    $("#resultdiv").show("slow");
-    $('html,body').animate({
-      scrollTop: $("#resultdiv").offset().top},
-      'slow');
-         
-  
-  
-  
-    $.ajax({
-        url: 'checkdisease',
-        type: "POST",
-        data: { "noofsym" : noofsym,
-                "symptoms" :symlist,
-                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
-        },
-        dataType: 'json',
-  
-        success: function (data) {
-          document.getElementById('diseasefield').innerText = data["predicteddisease"];
-          document.getElementById('percentage').innerText = data["confidencescore"]+"%";
-          document.getElementById('consultdoctor').innerText = data["consultdoctor"];
-          percent=data["confidencescore"];
-          disease=data["predicteddisease"];
-          consultdoctor=data["consultdoctor"];
-  
-          $('#percentage').css('width', percent + "%");
-  
-          document.getElementById('diseasesearch').innerText = data["predicteddisease"];
-  
-          $("#href").attr("href","https://www.google.com/search?q="+ disease +"");
-  
-          
-          document.getElementById('consultdoctor').innerText = data["consultdoctor"];
-
-          $("#doctorid").attr("href","https://www.google.com/search?q="+ consultdoctor +"%20nearby%20me ");
-          document.getElementById("doctorid").href = "http://www.cnn.com/";
-        }
-        
-      });
-  
-    }
-  
-    });
-  
-  
-  
-  });
-  function changedoctor(){
-      console.log("clicked");
-    document.getElementById("doctorid").herf = "http://www.cnn.com/";
-  }
-
-  
+function changedoctor() {
+	console.log("clicked");
+	document.getElementById("doctorid").herf = "http://www.cnn.com/";
+}
 </script>
-
 <style>
-  html {
-    height:100%;
-  }
-  
-  body {
-    margin:0;
-  }
-  
-  .bg {
-    animation:slide 3s ease-in-out infinite alternate;
-    background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
-    bottom:0;
-    left:-50%;
-    opacity:.5;
-    position:fixed;
-    right:-50%;
-    top:0;
-    z-index:-1;
-  }
-  
-  .bg2 {
-    animation-direction:alternate-reverse;
-    animation-duration:4s;
-  }
-  
-  .bg3 {
-    animation-duration:5s;
-  }
-  
+html {
+	height: 100%;
+}
 
-  @keyframes slide {
-    0% {
-      transform:translateX(-25%);
-    }
-    100% {
-      transform:translateX(25%);
-    }
-  }
+body {
+	margin: 0;
+}
+
+.bg {
+	animation: slide 3s ease-in-out infinite alternate;
+	background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+	bottom: 0;
+	left: -50%;
+	opacity: .5;
+	position: fixed;
+	right: -50%;
+	top: 0;
+	z-index: -1;
+}
+
+.bg2 {
+	animation-direction: alternate-reverse;
+	animation-duration: 4s;
+}
+
+.bg3 {
+	animation-duration: 5s;
+}
+
+@keyframes slide {
+	0% {
+		transform: translateX(-25%);
+	}
+	100% {
+		transform: translateX(25%);
+	}
+}
+
+#predict {
+	position: static;
+	width: 100px;
+	padding: 5px;
+	text-align: center;
+}
+
+#predicted-data {
+	margin-top: 5% !important;
+	width: 40%;
+	background: rgba(3, 169, 244, 0.48);
+	padding: 10px;
+	font-size: 16px;
+	text-align: center;
+	text-shadow: -5px 5px 6px white;
+	box-shadow: 3px 1px 3px 0px #607D8B;
+	display: inline-block;
+}
+
+#inputsym {
+	position: fixed;
+	right: 100px;
+}
+
+.symptoms {
+	border: ridge rgb(150, 177, 199);
+	border-radius: .25em;
+	margin: 2px;
+	display: block;
+	text-align: center;
+	padding: 0px !important;
+	background-color: #fdffff;
+	text-shadow: 0px 1px 20px rgba(3, 169, 244, 0.78);
+	box-shadow: 0px 8px 16px 0px rgba(78, 191, 243, 0.05);
+}
+
+#symptoms-box {
+	position: static;
+	border-radius: .25em;
+	margin-top: 5%;
+	margin-left: 30%;
+	margin-right: 30%;
+	text-align: center;
+	background-color: rgba(240, 240, 250, 0.5);
+	min-height: 300px;
+	align-items: center;
+	padding: 15px 15px 15px 15px;
+}
+
+.card-body {
+	border-radius: .25em;
+	margin-left: auto;
+	margin-right: auto;
+	align-items: center;
+}
 
 
-    #predict{
-        position: static;
-        width: 100px;
-        padding: 5px;
-        text-align: center;
-            
-    } 
-    
-    #predicted-data{
-      margin-top: 5% !important;
-      width: 40%;
-      background:rgba(3, 169, 244, 0.48);
-      padding: 10px;
-      font-size: 16px;
-      text-align: center;
-      text-shadow: -5px 5px 6px white;
-      box-shadow: 3px 1px 3px 0px #607D8B;
-      display:inline-block;
-          
-    }
-    
-    
-    
-    #inputsym{
-       
-       position: fixed;
-       right: 100px;
-    }
-    
-    .symptoms{
-      border:ridge rgb(150, 177, 199);
-      border-radius:.25em;
-      margin: 2px;
-      display: block ;
-      text-align: center;
-      padding: 0px !important;
-      
-      background-color: #fdffff;
-      text-shadow: 0px 1px 20px rgba(3, 169, 244, 0.78);
-      box-shadow: 0px 8px 16px 0px rgba(78, 191, 243, 0.05);
-     
-    }
-    
-    #symptoms-box{ 
-    position: static;
-    border-radius:.25em;
-    margin-top: 5%;
-    margin-left: 30%;
-    margin-right: 30%;
-    text-align: center;
-    {% comment %} align: center; {% endcomment %}
-    background-color: rgba(240, 240, 250, 0.5);
-    min-height: 300px;
-    align-items: center;
-    padding: 15px 15px 15px 15px;
-        
-    }
-    
-    .card-body{
-      border-radius:.25em;
-      margin-left: auto ;
-      margin-right: auto ;
-      align-items: center;
-      {% comment %} background-color: rgba(117, 190, 218, 0.5);  {% endcomment %}
-      
-    }
-    /*  ------------------------------------------------------------*/
-    /* Dropdown Button */
-     .dropbtn {
-      border-radius:.25em;
-        position: relative;
-        left:50%;
-        width: 150px;
-        background-color: #3498DB;
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-      } 
-       
-      /* Dropdown button on hover & focus */
-      .dropbtn:hover, .dropbtn:focus {
-        background-color: #2980B9;
-      }
-      
-      /* The container <div> - needed to position the dropdown content */
-      .dropdown {
-        position: relative;
-        border-radius:.25em;
-        display: inline-block;
-        left:40%;
-        
-      } 
-      #container-dropdown{
-    
-        border-radius:.25em;
-        min-width: 20px;
-        min-height: 200px;
-      }
-      
-      /* Dropdown Content (Hidden by Default) */
-      .drop-content {
-        left:10%;
-        right: 10%;
-        display: none;
-        border-radius:.25em;
-        background-color: rgba(117, 190, 218, 0); 
-        {% comment %} opacity:0.5; {% endcomment %}
-        text-shadow: 0px 1px 20px rgb(7, 97, 231);
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-        
-      }
-    
-      
-    .dropdown-item {
-      position: relative;
-      min-width: 100px ;    
-      text-align: center !important;
-      width: auto !important;
-      display:inline-block ;
-      cursor: pointer;    
-      border-radius:.25em;
-      clear: both;
-      text-align: center; 
-      border: 0; 
-    
-      margin: 10px !important;
-      
-      background-color: rgba(220, 250, 220, 0.3); 
-      text-shadow: 0px 1px 20px rgba(3, 169, 244, 0.78);
-      box-shadow: 0px 8px 16px 0px rgba(3, 169, 244, 0.05);
-    
-      line-height: 2;
-      padding: 4px !important;
-      
-    }
-      
-      /* Links inside the dropdown 
-      .dropdown-content a {
-     
-      }*/
-      
-      /* Change color of dropdown links on hover */
-      .dropdown-content a:hover {background-color: rgb(255, 255, 241);
-      }
-    
-      
-      /* Show the dropdown menu (use JS to add this class to the .dropdown-content container
-       when the user clicks on the dropdown button) */
-      .show {display:inline-block;}
-    
-    
-      #searchbar{ 
-        margin-left: 25%; 
-        padding:10px; 
-        border-radius: 10px; 
-        background-color: rgba(220, 250, 220, 0.7);
-        width: 30%; 
-    } 
-    
-      #searchbardiv{
-        padding:10px; 
-    
-      }
+/*  ------------------------------------------------------------*/
+
+
+/* Dropdown Button */
+
+.dropbtn {
+	border-radius: .25em;
+	position: relative;
+	left: 50%;
+	width: 150px;
+	background-color: #3498DB;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+
+/* Dropdown button on hover & focus */
+
+.dropbtn:hover,
+.dropbtn:focus {
+	background-color: #2980B9;
+}
+
+
+/* The container 
+  <div>
+    - needed to position the dropdown content */
+
+.dropdown {
+	position: relative;
+	border-radius: .25em;
+	display: inline-block;
+	left: 40%;
+}
+
+#container-dropdown {
+	border-radius: .25em;
+	min-width: 20px;
+	min-height: 200px;
+}
+
+
+/* Dropdown Content (Hidden by Default) */
+
+.drop-content {
+	left: 10%;
+	right: 10%;
+	display: none;
+	border-radius: .25em;
+	background-color: rgba(117, 190, 218, 0);
+	text-shadow: 0px 1px 20px rgb(7, 97, 231);
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-item {
+	position: relative;
+	min-width: 100px;
+	text-align: center !important;
+	width: auto !important;
+	display: inline-block;
+	cursor: pointer;
+	border-radius: .25em;
+	clear: both;
+	text-align: center;
+	border: 0;
+	margin: 10px !important;
+	background-color: rgba(220, 250, 220, 0.3);
+	text-shadow: 0px 1px 20px rgba(3, 169, 244, 0.78);
+	box-shadow: 0px 8px 16px 0px rgba(3, 169, 244, 0.05);
+	line-height: 2;
+	padding: 4px !important;
+}
+
+
+/* Links inside the dropdown 
+    .dropdown-content a {
+    }*/
+
+
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+	background-color: rgb(255, 255, 241);
+}
+
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container
+    when the user clicks on the dropdown button) */
+
+.show {
+	display: inline-block;
+}
+
+#searchbar {
+	margin-left: 25%;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: rgba(220, 250, 220, 0.7);
+	width: 30%;
+}
+
+#searchbardiv {
+	padding: 10px;
+}
 </style>
 <div class="bg"></div>
 <div class="bg bg2"></div>
 <div class="bg bg3"></div>
 <div class="container">
-    <br>
-    <div class="text-center"> 
-      <h3>
-          Identify possible conditions and treatment related to your symptoms.
-      </h3><br>
-            <button onclick="Functionshow()" class="btn btn-primary dropdown-toggle">Add symptoms</button>
-    </div>
-  </div >
-
-  <div id="myDropdown" class="drop-content">
-
-    <div id="searchbardiv" class="searchbardiv">    
-  
-        <input id="searchbar" class="searchbar" onkeyup="search_symptoms()" type="text"
-          name="search" placeholder=" Search symptoms.. "> <br>
-    </div> 
-
-    <div class="container" id="container-dropdown">
-        {% for i in list2 %}
-        
-        <a class="dropdown-item" onclick="Functionsymptoms(this.textContent)">{{i}}</a>
-        
-        {% endfor %}
-    </div>
+	<br>
+	<div class="text-center">
+		<h3>
+Identify possible conditions and treatment related to your symptoms.
+</h3>
+		<br>
+		<button onclick="Functionshow()" class="btn btn-primary dropdown-toggle">Add symptoms</button>
+	</div>
 </div>
-<br><br>
-  <div class="text-center">
-        <div class="card" id= "symptoms-box">
-    
-      {% csrf_token %}
-            <div class="card-header">Symptoms list -</div>
-                    <div class="card-body" id="sympbox" >
-                    </div>
-                          <br>
-                          <div class="card-footer">
-                                <button id="predict" class="btn btn-success" onclick="predictFunc()">Predict</button>
-                          </div>
-             </div>
+<div id="myDropdown" class="drop-content">
+	<div id="searchbardiv" class="searchbardiv">
+		<input id="searchbar" class="searchbar" onkeyup="search_symptoms()" type="text" name="search" placeholder=" Search symptoms.. ">
+		<br> </div>
+	<div class="container" id="container-dropdown"> {% for i in list2 %} <a class="dropdown-item" onclick="Functionsymptoms(this.textContent)">{{i}}</a> {% endfor %} </div>
+</div>
+<br>
+<br>
+<div class="text-center">
+	<div class="card" id="symptoms-box"> {% csrf_token %}
+		<div class="card-header">Symptoms list -</div>
+		<div class="card-body" id="sympbox"> </div>
+		<br>
+		<div class="card-footer">
+			<button id="predict" class="btn btn-success" onclick="predictFunc()">Predict</button>
+		</div>
+	</div>
+</div>
+</div>
+<br>
+<div id="resultdiv" style="display: none;">
+	<div class="text-center">
+		<div class="card" id="predicted-data">
+			<div> {% comment %} <span class="diseasefield">Patient name : {{ user.patient.name }}</span> {% endcomment %} {% comment %} <span class="diseasefield">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Age : {{ user.patient.age }} </span> {% endcomment %} </div> <span class="diseasefield">predicted disease is : </span><span class="diseasefield" id="diseasefield" style="color: #092700; text-shadow: 2px 2px 4px rgb(36, 255, 45);"></span>
+			<br>
+			<br> <span class="diseasefield">confidence score of :  </span> <span>
+        <div class="progress" style="display: inline-block;width:140px">
+          <div id="percentage" class="progress-bar" style="width: 0%">0%
+          </div>
         </div>
+      </span> </div>
+	</div>
+	<div class="text-center mt-4 mb-4">
+		<button class="btn btn-outline-success"> <a id="href" href="https://www.google.com/search?q=disease" target="_blank" rel="noopener noreferrer">Click here to know more about &nbsp 
+    <span id="diseasesearch" style="color: blue;"></span></a> </button>
+	</div>
+	<br>
+	<br>
+	<div class="text-center">
+		<h4>This tool does not provide medical advice. It is intended for informational purposes only.
+    </h4>
+		<h4 style="color: crimson;">It is not a substitute for professional medical advice, diagnosis or treatment. 
+    </h4>
+		<br>
+		<br> </div>
+	<div class="mx-auto text-center " style="width:350px">
+		<div> {% comment %} {% csrf_token %} {% endcomment %}
+			<button id="consultbtn" type="submit" class="btn btn-outline-success" onclick="changedoctor() "> Consult a <a id="doctorid" href="https://www.google.com/search?q=doctor" target="_blank" rel="noopener noreferrer"><span id="consultdoctor"  name="consultdoctor" > </span> doctor
+      </button>
+    </div>
   </div>
-
-  <br>
-
-  <div id="resultdiv" style="display: none;" >
-        <div class="text-center">
-              <div class="card" id="predicted-data">
-                    <div>
-                            {% comment %} <span class="diseasefield" >Patient name : {{ user.patient.name }}</span> {% endcomment %}
-                            {% comment %} <span class="diseasefield" >&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Age : {{ user.patient.age }} </span> {% endcomment %}
-                    </div>
-                    <span class="diseasefield" >predicted disease is : </span><span class="diseasefield" id="diseasefield" style="color: #092700; text-shadow: 2px 2px 4px rgb(36, 255, 45);"></span> <br>
-                    <br>
-                    <span class="diseasefield">confidence score of :  </span>
-                    <span>
-                          <div class="progress" style="display: inline-block;width:140px">
-                              <div id="percentage" class="progress-bar" style="width: 0%">0%
-                              </div>
-                          </div>
-                    </span>
-
-                    </div>
-              </div>
-
-        <div class="text-center mt-4 mb-4"> 
-              <button class="btn btn-outline-success">
-                    <a id="href" href="https://www.google.com/search?q=disease" target="_blank" rel="noopener noreferrer">Click here to know more about &nbsp 
-                    <span id="diseasesearch" style="color: blue;"></span></a>
-              </button>
-        </div>
-          <br><br>
-
-        <div class="text-center">
-          <h4>This tool does not provide medical advice. It is intended for informational purposes only.
-          </h4><h4 style="color: crimson;">It is not a substitute for professional medical advice, diagnosis or treatment. 
-          </h4>
-        <br><br>
-
-        </div>
-
-
-<div class="mx-auto text-center " style="width:350px">
-  
-     
-        <div  > 
-            {% comment %} {% csrf_token %}  {% endcomment %}
-            <button id="consultbtn" type="submit" class="btn btn-outline-success" onclick="changedoctor() " > Consult a 
-            <a id="doctorid" href="https://www.google.com/search?q=doctor" target="_blank" rel="noopener noreferrer"><span id="consultdoctor"  name="consultdoctor" > </span> doctor
-            </button>
-        </div>
-      
- 
 </div>
 </div>
-</div>
-
 {% endblock %}

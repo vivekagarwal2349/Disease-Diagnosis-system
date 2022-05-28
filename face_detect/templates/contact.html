@@ -1,55 +1,56 @@
-{% extends 'news-detail.html' %}
-{% load static %}
-{% block body %}
-
+{% extends 'news-detail.html' %} {% load static %} {% block body %}
 
 <section id="google-map">
-     <!-- How to change your own map point
-            1. Go to Google Maps
-            2. Click on your location point
-            3. Click "Share" and choose "Embed map" tab
-            4. Copy only URL and paste it within the src="" field below
-	-->
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2453853376032!2d82.98718481544977!3d25.262329535253315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e33ef9b1f7cdd%3A0x7555db6d623dc140!2sIndian%20Institute%20of%20Technology%20(BHU)%20Varanasi!5e0!3m2!1sen!2sin!4v1653136076360!5m2!1sen!2sin" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-     </section>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2453853376032!2d82.98718481544977!3d25.262329535253315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e33ef9b1f7cdd%3A0x7555db6d623dc140!2sIndian%20Institute%20of%20Technology%20(BHU)%20Varanasi!5e0!3m2!1sen!2sin!4v1653136076360!5m2!1sen!2sin"
+    width="100%"
+    height="450"
+    frameborder="0"
+    style="border: 0"
+    allowfullscreen=""
+  ></iframe>
+</section>
 
+<!-- FOOTER -->
+<footer data-stellar-background-ratio="5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4">
+        <div class="footer-thumb">
+          <h4 class="wow fadeInUp" data-wow-delay="0.4s">Contact Info</h4>
+          <p></p>
 
-     <!-- FOOTER -->
-     <footer data-stellar-background-ratio="5">
-          <div class="container">
-               <div class="row">
-
-                    <div class="col-md-4 col-sm-4">
-                         <div class="footer-thumb">
-                              <h4 class="wow fadeInUp" data-wow-delay="0.4s">Contact Info</h4>
-                              <p></p>
-
-                              <div class="contact-info">
-                                   <p><i class="fa fa-phone"></i> 9999-999-999</p>
-                                   <p><i class="fa fa-envelope-o"></i> <a href="#">email@mail.com</a></p>
-                              </div>
-                         </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4">
-                         <div class="footer-thumb">
-                              <div class="opening-hours">
-                                   <h4 class="wow fadeInUp" data-wow-delay="0.4s">Social Platform</h4>
-                                   {% comment %} <p>Monday - Friday <span>06:00 AM - 10:00 PM</span></p>
-                                   <p>Saturday <span>09:00 AM - 08:00 PM</span></p>
-                                   <p>Sunday <span>Closed</span></p> {% endcomment %}
-                              </div>
-
-                              <ul class="social-icon">
-                                   <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
-                                   <li><a href="#" class="fa fa-twitter"></a></li>
-                                   <li><a href="#" class="fa fa-linkedin"></a></li>
-                              </ul>
-                         </div>
-                    </div>
-
-               </div>
+          <div class="contact-info">
+            <p><i class="fa fa-phone"></i> 9999-999-999</p>
+            <p>
+              <i class="fa fa-envelope-o"></i> <a href="#">email@mail.com</a>
+            </p>
           </div>
-     </footer>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-4">
+        <div class="footer-thumb">
+          <div class="opening-hours">
+            <h4 class="wow fadeInUp" data-wow-delay="0.4s">Social Platform</h4>
+            {% comment %}
+            <p>Monday - Friday <span>06:00 AM - 10:00 PM</span></p>
+            <p>Saturday <span>09:00 AM - 08:00 PM</span></p>
+            <p>Sunday <span>Closed</span></p>
+            {% endcomment %}
+          </div>
+
+          <ul class="social-icon">
+            <li>
+              <a href="#" class="fa fa-github"></a>
+            </li>
+            <li><a href="#" class="fa fa-twitter"></a></li>
+            <li><a href="#" class="fa fa-linkedin"></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
 {% endblock %}

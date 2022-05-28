@@ -1,193 +1,247 @@
-{% extends 'news-detail.html' %}
-{% load static %}
-{% block body %}
+{% extends 'news-detail.html' %} {% load static %} {% block body %}
 <style>
-     body,html{
-          width:100%;
-          height: 100%;
-        }
-        body{
-          margin:0;
-          padding:0;
-          background:#1a1e23;
-        }
-        .bubbles{
-          position:absolute;
-          width:100%;
-          height: 100%;
-          z-index:0;
-          overflow:hidden;
-          top:0;
-          left:0;
-        }
-        .bubble{
-          position: absolute;
-          bottom:-100px;
-          width:40px;
-          height: 40px;
-          background:#f1f1f1;
-          border-radius:50%;
-          opacity:0.5;
-          animation: rise 10s infinite ease-in;
-        }
-        .bubble:nth-child(1){
-          width:40px;
-          height:40px;
-          left:10%;
-          animation-duration:8s;
-        }
-        .bubble:nth-child(2){
-          width:20px;
-          height:20px;
-          left:20%;
-          animation-duration:5s;
-          animation-delay:1s;
-        }
-        .bubble:nth-child(3){
-          width:50px;
-          height:50px;
-          left:35%;
-          animation-duration:7s;
-          animation-delay:2s;
-        }
-        .bubble:nth-child(4){
-          width:80px;
-          height:80px;
-          left:50%;
-          animation-duration:11s;
-          animation-delay:0s;
-        }
-        .bubble:nth-child(5){
-          width:35px;
-          height:35px;
-          left:55%;
-          animation-duration:6s;
-          animation-delay:1s;
-        }
-        .bubble:nth-child(6){
-          width:45px;
-          height:45px;
-          left:65%;
-          animation-duration:8s;
-          animation-delay:3s;
-        }
-        .bubble:nth-child(7){
-          width:90px;
-          height:90px;
-          left:70%;
-          animation-duration:12s;
-          animation-delay:2s;
-        }
-        .bubble:nth-child(8){
-          width:25px;
-          height:25px;
-          left:80%;
-          animation-duration:6s;
-          animation-delay:2s;
-        }
-        .bubble:nth-child(9){
-          width:15px;
-          height:15px;
-          left:70%;
-          animation-duration:5s;
-          animation-delay:1s;
-        }
-        .bubble:nth-child(10){
-          width:90px;
-          height:90px;
-          left:25%;
-          animation-duration:10s;
-          animation-delay:4s;
-        }
-        @keyframes rise{
-          0%{
-            bottom:-100px;
-            transform:translateX(0);
-          }
-          50%{
-            transform:translate(100px);
-          }
-          100%{
-            bottom:1080px;
-            transform:translateX(-200px);
-          }
-        }
-        
+  body,
+  html {
+    width: 100%;
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #1a1e23;
+  }
+  .bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+  .bubble {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 40px;
+    background: #f1f1f1;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: rise 10s infinite ease-in;
+  }
+  .bubble:nth-child(1) {
+    width: 40px;
+    height: 40px;
+    left: 10%;
+    animation-duration: 8s;
+  }
+  .bubble:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    left: 20%;
+    animation-duration: 5s;
+    animation-delay: 1s;
+  }
+  .bubble:nth-child(3) {
+    width: 50px;
+    height: 50px;
+    left: 35%;
+    animation-duration: 7s;
+    animation-delay: 2s;
+  }
+  .bubble:nth-child(4) {
+    width: 80px;
+    height: 80px;
+    left: 50%;
+    animation-duration: 11s;
+    animation-delay: 0s;
+  }
+  .bubble:nth-child(5) {
+    width: 35px;
+    height: 35px;
+    left: 55%;
+    animation-duration: 6s;
+    animation-delay: 1s;
+  }
+  .bubble:nth-child(6) {
+    width: 45px;
+    height: 45px;
+    left: 65%;
+    animation-duration: 8s;
+    animation-delay: 3s;
+  }
+  .bubble:nth-child(7) {
+    width: 90px;
+    height: 90px;
+    left: 70%;
+    animation-duration: 12s;
+    animation-delay: 2s;
+  }
+  .bubble:nth-child(8) {
+    width: 25px;
+    height: 25px;
+    left: 80%;
+    animation-duration: 6s;
+    animation-delay: 2s;
+  }
+  .bubble:nth-child(9) {
+    width: 15px;
+    height: 15px;
+    left: 70%;
+    animation-duration: 5s;
+    animation-delay: 1s;
+  }
+  .bubble:nth-child(10) {
+    width: 90px;
+    height: 90px;
+    left: 25%;
+    animation-duration: 10s;
+    animation-delay: 4s;
+  }
+  @keyframes rise {
+    0% {
+      bottom: -100px;
+      transform: translateX(0);
+    }
+    50% {
+      transform: translate(100px);
+    }
+    100% {
+      bottom: 1080px;
+      transform: translateX(-200px);
+    }
+  }
 </style>
 
-
 <section class="sticky">
-     <div class="bubbles">
-         <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       <div class="bubble"></div>
-       
-     </div>
-   </section>
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+</section>
 
-   <section class="stcky" id="appointment" data-stellar-background-ratio="3">
-     <div class="container">
-          <div class="row">
+<section class="stcky" id="appointment" data-stellar-background-ratio="3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <img
+          src="{% static 'images/signup_img.png' %}"
+          style="height: 600px"
+          class="img-responsive"
+          alt=""
+        />
+      </div>
 
-               <div class="col-md-6 col-sm-6">
-                    <img src="{% static 'images/signup_img.png' %}" style="height:600px" class="img-responsive" alt="">
-               </div>
+      <div class="col-md-6 col-sm-6">
+        <!-- CONTACT FORM HERE -->
+        <form
+          id="appointment-form"
+          role="form"
+          method="post"
+          action=""
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
 
-               <div class="col-md-6 col-sm-6">
-                    <!-- CONTACT FORM HERE -->
-                    <form id="appointment-form" role="form" method="post" action="" enctype="multipart/form-data" >
-                               {% csrf_token %}
-
-                         <!-- SECTION TITLE -->
-                         <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
-                              <h2 style="color:white">Make an Account</h2>
-                         </div>
-
-                         <div class="wow fadeInUp" data-wow-delay="0.8s">
-                              <div class="col-md-6 col-sm-6">
-                                   <label style="color:white" for="name" >Username</label>
-                                   <input type="text" class="form-control" id="name" name="uname" placeholder="UserName">
-                              </div>
-
-                              <div class="col-md-6 col-sm-6">
-                                   <label style="color:white" for="email">Password</label>
-                                   <input type="password" class="form-control" id="email" name="pwd">
-                              </div>
-
-                              <div class="col-md-6 col-sm-6">
-                                   <label style="color:white" for="date">First Name</label>
-                                   <input type="text" name="fname" placeholder="Enter First name" class="form-control">
-                              </div>
-
-                              <div class="col-md-6 col-sm-6">
-                                   <label style="color:white" for="select">Last Name</label>
-                                           <input type="text" name="lname" placeholder="Enter Last name" class="form-control">
-
-                              </div>
-
-                              <div class="col-md-12 col-sm-12">
-                                   <label style="color:white" for="telephone">Email</label>
-                                   <input type="email" class="form-control" id="phone" name="email" placeholder="Enter Email Address">
-                                           <label style="color:white" for="telephone">Phone Number</label>
-                                   <input type="tel" class="form-control" id="phone" name="mobile" placeholder="Enter Phone">
-                                   <label style="color:white" for="Message">Full Address</label>
-                                           <input type="text" name="add" placeholder="Enter Your Full Address" class="form-control" >
-                                           <label style="color:white" for="Message">Your Image</label>
-                                           <input type="file" name="image" value="Choose File" class="form-control">
-                                   <button type="submit" class="form-control" id="cf-submit" name="submit">Submit Button</button>
-                              </div>
-                         </div>
-                   </form>
-               </div>
-
+          <!-- SECTION TITLE -->
+          <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+            <h2 style="color: white">Make an Account</h2>
           </div>
-     </div>
+
+          <div class="wow fadeInUp" data-wow-delay="0.8s">
+            <div class="col-md-6 col-sm-6">
+              <label style="color: white" for="name">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="uname"
+                placeholder="UserName"
+              />
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+              <label style="color: white" for="email">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="email"
+                name="pwd"
+              />
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+              <label style="color: white" for="date">First Name</label>
+              <input
+                type="text"
+                name="fname"
+                placeholder="Enter First name"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+              <label style="color: white" for="select">Last Name</label>
+              <input
+                type="text"
+                name="lname"
+                placeholder="Enter Last name"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+              <label style="color: white" for="telephone">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="phone"
+                name="email"
+                placeholder="Enter Email Address"
+              />
+              <label style="color: white" for="telephone">Phone Number</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                name="mobile"
+                placeholder="Enter Phone"
+              />
+              <label style="color: white" for="Message">Full Address</label>
+              <input
+                type="text"
+                name="add"
+                placeholder="Enter Your Full Address"
+                class="form-control"
+              />
+              <label style="color: white" for="Message">Your Image</label>
+              <input
+                type="file"
+                name="image"
+                value="Choose File"
+                class="form-control"
+              />
+              <button
+                type="submit"
+                class="form-control"
+                id="cf-submit"
+                name="submit"
+              >
+                Submit Button
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}
