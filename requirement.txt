@@ -3,8 +3,9 @@ certifi==2022.5.18.1
 Django==3.2.3
 django-crispy-forms==1.14.0
 joblib==1.1.0
-numpy==1.22.4
+numpy==1.21.4
 opencv-contrib-python==4.5.5.64
+opencv-python-headless
 psycopg2==2.8.4
 pytz==2022.1
 scikit-learn==1.1.1
