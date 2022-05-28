@@ -6,11 +6,11 @@ User can login using face recognition and can see the list of diseases after sel
 
 Clone the repo:
 
-`$ git clone https://github.com/.git`
+`$ git clone https://github.com/vivekagarwal2349/Disease-Diagnosis-system.git`
 
 Open the project's folder:
 
-`$ cd Face-Authentication-System`
+`$ cd Disease-Diagnosis-system.git`
 
 install the dependencies:
 
