@@ -38,6 +38,9 @@ def Login(request):
             for i in range(1,101):
                 image_path = data_path + str(u) + str(i) + ".jpg"
                 images = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                if images is None:
+                    Message = {'type': 'danger', 'message': 'Image Dataset not Found', 'heading': 'Error'}
+                    return render(request,'login1.html',{'Message': Message})
                 Training_Data.append(np.asarray(images, dtype=np.uint8))
                 Labels.append(i)
 
