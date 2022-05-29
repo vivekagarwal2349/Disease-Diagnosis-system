@@ -4,7 +4,7 @@
 <script>
   let symptomsList = [];
     
-  
+    // Predict Disease and suggest doctor
     function predictFunc(){
         console.log("yaay");
         var symptoms = document.getElementsByClassName("symptoms");
@@ -45,7 +45,6 @@
               
                       
                       document.getElementById('consultdoctor').innerText = data["consultdoctor"];
-                      {% comment %} $("#doctorid").attr("href","https://www.google.com/search?q="+ consultdoctor +"%20nearby%20me "); {% endcomment %}
                       doc_link = "https://www.google.com/search?q="+ (data["consultdoctor"]) +"%20near%20me "
                       document.getElementById("doctorid").href = doc_link;
               
@@ -95,11 +94,7 @@
       newItem.setAttribute("class","symptoms");
       document.getElementById("sympbox").appendChild(newItem);
       
-    }
-  
-   
-    //var elements = document.getElementsByClassName("symptoms");
-  
+    }  
   
     function search_symptoms() { 
       let input = document.getElementById('searchbar').value 
@@ -265,7 +260,6 @@
   margin-left: 30%;
   margin-right: 30%;
   text-align: center;
-  {% comment %} align: center; {% endcomment %}
   background-color: rgba(240, 240, 250, 0.5);
   min-height: 300px;
   align-items: center;
@@ -276,7 +270,6 @@
   margin-left: auto ;
   margin-right: auto ;
   align-items: center;
-  {% comment %} background-color: rgba(117, 190, 218, 0.5);  {% endcomment %}
   }
   /*  ------------------------------------------------------------*/
   /* Dropdown Button */
@@ -317,7 +310,6 @@
     display: none;
     border-radius:.25em;
     background-color: rgba(117, 190, 218, 0); 
-    {% comment %} opacity:0.5; {% endcomment %}
     text-shadow: 0px 1px 20px rgb(7, 97, 231);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -401,10 +393,6 @@ Identify possible conditions and treatment related to your symptoms.
 <div id="resultdiv" style="display: none;" >
   <div class="text-center">
     <div class="card" id="predicted-data">
-      <div>
-        {% comment %} <span class="diseasefield" >Patient name : {{ user.patient.name }}</span> {% endcomment %}
-        {% comment %} <span class="diseasefield" >&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Age : {{ user.patient.age }} </span> {% endcomment %}
-      </div>
       <span class="diseasefield" >predicted disease is : </span><span class="diseasefield" id="diseasefield" style="color: #092700; text-shadow: 2px 2px 4px rgb(36, 255, 45);"></span> <br>
       <br>
       <span class="diseasefield">confidence score of :  </span>
