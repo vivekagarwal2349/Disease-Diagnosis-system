@@ -10,7 +10,7 @@ Clone the repo:
 
 Open the project's folder:
 
-`$ cd Disease-Diagnosis-system.git`
+`$ cd Disease-Diagnosis-system`
 
 install the dependencies:
 
