@@ -1,6 +1,6 @@
 # Disease Prediction based on symptoms provided by patient with face Authentication Login System
 
-User can login using face recognition and can see the list of diseases after selecting symptoms associated with them.
+In this era of IT, technology has revolutionized the health domain to a great extent. This project aims to design a diagnostic model for various diseases relying on their symptoms. This System has used data mining techniques such as classification in order to achieve such a model. Datasets consisting of voluminous data about patient diseases are gathered, refined and classified and were used for training the intelligent agent. Here, the Naive Bayes Algorithm is used for classification purpose. Naïve Bayes Classifier calculates the probability of the disease. Based on the result, the patient can contact the doctor accordingly for further treatment. It's an exemplar where technology and health knowledge are sewn into a thread perfectly with a desire to achieve "prediction is better than cure".
 
 ## **Installation:**
 
@@ -73,6 +73,8 @@ The symptoms of the disease are collected from Kaggle. The CSV file contains aro
 
 ***Training Algorithm***
 
+#### Naive Bayes
+
 Due to big data progress in biomedical and healthcare communities, accurate study of medical data benefits early disease recognition, patient care and community services. When the quality of medical data is incomplete the exactness of study is reduced. Moreover, different regions exhibit unique appearances of certain regional diseases, which may results in weakening the prediction of disease outbreaks.
 
 In this project, it bid a Machine learning Decision tree map, Navie Bayes, Random forest algorithm by using structured and unstructured data from hospital. It also uses Machine learning algorithm for partitioning the data. To the highest of gen, none of the current work attentive on together data types in the zone of remedial big data analytics. Compared to several typical calculating algorithms, the scheming accuracy of the proposed algorithm reaches 94.8% with an regular speed which is quicker than that of the unimodal disease risk prediction algorithm and produces report.
@@ -81,30 +83,25 @@ In this project, it bid a Machine learning Decision tree map, Navie Bayes, Rando
 
 ## Some screenshots of this Webapp:
 
-<p align="center">
-  <img width="800" height="400" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/home.png">
-  <em>home page</em>
-</p>
-<p align="center">
-  <img width="800" height="400" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/signup.png">
-  <em>signup page</em>
-</p>
-<p align="center">
-  <img width="800" height="400" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/login.png">
-  <em>login page</em>
-</p>
-<p align="center">
-  <img width="800" height="400" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/symptoms.png">
-  <em>add symptoms</em>
-</p>
-<p align="center">
-  <img width="800" height="400" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/prediction.png">
-  <em>model prediction</em>
-</p>
+<span align="left">
+  <img width="400" height="300" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/home.png">
+</span>
+<span align="right">
+  <img width="400" height="300" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/signup.png">
+</span>
+<span align="left">
+  <img width="400" height="300" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/login.png">
+</span>
+<span align="right">
+  <img width="400" height="300" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/symptoms.png">
+</span>
+<span align="left">
+  <img width="400" height="300" src="https://github.com/vivekagarwal2349/Disease-Diagnosis-system/blob/main/media/prediction.png">
+</span>
 
 ## Future Scope:
 
-A separate Doctor profile by which patient can consult corresponding doctor at very same platform.
+A separate Doctor profile by which patient can consult corresponding doctor at very same platform. Further, the system can be extended to have more number of symptoms and disease. Currently, it does not recommend medications of the disease and Past history of the disease has not been considered.
 
 
 
