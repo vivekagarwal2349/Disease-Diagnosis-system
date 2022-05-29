@@ -34,6 +34,8 @@ Navigate to the URL: <http://localhost:8000/>
 
 **Database :** SQLite3
 
+**Library :** OpenCV, Numpy, Pandas, SKLearn
+
 ## Architecture of the system:
 
 <p align="center">
